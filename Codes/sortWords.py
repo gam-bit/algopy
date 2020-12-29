@@ -9,31 +9,58 @@
 
 #--------------------
 
+
 def sort(words_lst):
+    
+    n = len(words_lst)
+    if n <= 1:
+        return words_lst
+    
+    pivot = len(words_lst[0])
+    less_lst, equal_lst, more_lst = [], [], []
+
+
+    for word in words_lst:
+        if len(word) > pivot:
+            more_lst.append(word)
+        elif len(word) < pivot:
+            less_lst.append(word)
+        else:
+            equal_lst.append(word)
+
+    return sort(less_lst) + sort_by_alphabet(equal_lst) + sort(more_lst)
+
+
+def sort_by_alphabet(equal_lst):
 
     n = len(equal_lst)
 
-    if n == 1:
+    if n <= 1:
         return equal_lst
 
     sort_lst = []
-    word_len = len(equal_lst[0])
+    pivot_word = equal_lst[0]
 
-    for i in range(word_len): # 단어 길이만큼 돌기
-        if len(equal_lst) == 1:
-            sort_lst = equal_lst
-            break
+    before_lst, now_lst, after_lst = [], [], []
 
-        min_idx = 0
-        for j in range(len(equal_lst)): # 단어 하나씩 돌기
-            if ord(equal_lst[min_idx][i]) > ord(equal_lst[j][i]):
-                min_idx = j
-        sort_lst.append(equal_lst[min_idx])
-        equal_lst.remove(equal_lst[min_idx])
-        print(f"sort_lst: {sort_lst}, equal_lst: {equal_lst}")
+    for word in equal_lst:
+        idx = compare_alpha_idx(pivot_word, word)
+        if ord(word[idx]) > ord(pivot_word[idx]):
+            after_lst.append(word)
+        elif ord(word[idx]) < ord(pivot_word[idx]):
+            before_lst.append(word)
+        else:
+            now_lst.append(word)
 
-    return sort_lst
+    return sort_by_alphabet(before_lst) + now_lst + sort_by_alphabet(after_lst)
 
+
+def compare_alpha_idx(a, b):
+    n = len(a)
+    for i in range(n):
+        if ord(a[i]) != ord(b[i]):
+            return i  # 알파벳이 다른 index
+    return -1   # 단어가 같으면 -1 출력
 
 
 if __name__ == '__main__':
@@ -43,6 +70,9 @@ if __name__ == '__main__':
     for _ in range(n):
         words.add(input())
     words = list(words)
+            
 
     result = sort(words)
-    print(result)
+    for i in result:
+        print(i)
+    
