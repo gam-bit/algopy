@@ -38,7 +38,6 @@ def sort_by_alphabet(equal_lst):
     if n <= 1:
         return equal_lst
 
-    sort_lst = []
     pivot_word = equal_lst[0]
 
     before_lst, now_lst, after_lst = [], [], []
