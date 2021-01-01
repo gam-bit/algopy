@@ -39,7 +39,7 @@ start = 1
 end = min(lines)
 
 while start <= end:
-    mid = (start + end)//2
+    mid = (start + end) // 2
     cnt_parts = count_line_parts(lines, mid)
 
     if n < cnt_parts:
