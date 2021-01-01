@@ -37,24 +37,38 @@
 # 이진 탐색은 정렬된 상태에서 시작
  
 
-def search(lst, target):
+def binarysearch_using_while(keep_lst, target):
+    left = 0
+    right = len(keep_lst) - 1
+    
+    while left <= right:
+        mid = (left + right) // 2
+        if keep_lst[mid] == target:
+            return 'yes'
+        elif keep_lst[mid] > target:
+            right = mid - 1
+        elif keep_lst[mid] < target:
+            left = mid + 1
 
-    start_idx = 0
-    mid_idx = len(lst)//2
-    end_idx = len(lst)-1
+    return 'no'
 
-    if end_idx == -1: # 빈 리스트
+
+def binarysearch_using_recursive(keep_lst, target, l, r):    
+    mid = (l+r)//2
+
+    if l > r:
         return 'no'
-    if (mid_idx == end_idx) & (lst[mid_idx] < target): # 제일 큰 수를 봤는데 target이 더 큰 경우
-        return 'no'   
     
-    if target == lst[mid_idx]:
+    if keep_lst[mid] == target:
         return 'yes'
-    elif target > lst[mid_idx]:
-        return search(lst[mid_idx+1:], target)
-    else:
-        return search(lst[:mid_idx], target)
+
+    elif keep_lst[mid] > target:
+        return binarysearch_using_recursive(keep_lst, target, l, mid-1)
     
+    else:
+        return binarysearch_using_recursive(keep_lst, target, mid+1, r)
+
+
 
 
 n = int(input())
@@ -64,10 +78,16 @@ keep_lst.sort()
 m = int(input())
 find_lst = list(map(int, input().split()))
 
-answer = []
+while_answer = []
+rec_answer = []
 for t in find_lst:
-    v = search(keep_lst, t)
-    answer.append(v)
-    print(answer)
+    v1 = binarysearch_using_while(keep_lst, t)
+    while_answer.append(v1)
+    v2 = binarysearch_using_recursive(keep_lst, t, 0, len(keep_lst)-1)
+    rec_answer.append(v2)
 
-print(' '.join(answer))
+print('binarysearch_using_while: ')
+print(' '.join(while_answer))
+print('='*50)
+print('binarysearch_using_recursive: ') 
+print(' '.join(rec_answer))
