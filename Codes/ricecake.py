@@ -20,23 +20,20 @@ def sum_dduck_length(dduck_lst, h):
     return sum([dduck-h if dduck-h >= 0 else 0 for dduck in dduck_lst])  # [19, 15, 10, 17]
     
 
-def search(h_lst, m, l, r, ch_lst):
+def search_while(dduck_lst, m):
     
-    mid_idx = (l+r)//2
-    dduck_len = sum_dduck_length(dduck_lst, h_lst[mid_idx])
-    # print(h_lst[mid_idx], dduck_len)
-    if l > r:
-        return ch_lst
+    start = 0
+    end = max(dduck_lst)
     
-    if dduck_len == m:
-        return [(h_lst[mid_idx], dduck_len)]
-
-    elif dduck_len > m:
-        ch_lst.append((h_lst[mid_idx], dduck_len))
-        return search(h_lst, m, mid_idx+1, r, ch_lst)
-    elif dduck_len < m:
-        ch_lst.append((h_lst[mid_idx], dduck_len))
-        return search(h_lst, m, l, mid_idx-1, ch_lst)
+    while start <= end:
+        mid = (start+end) // 2
+        length = sum_dduck_length(dduck_lst, mid)
+        
+        if mid > length: # 떡이 더 필요
+            end = mid - 1
+        else: 
+            result = mid # 떡이 정해놓은 길이보다 큰 경우는 성립함
+            start = mid + 1
         
     
 
