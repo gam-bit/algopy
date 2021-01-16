@@ -13,6 +13,7 @@
 20
 14
 18
+17
 """
 
 from collections import deque
@@ -23,7 +24,7 @@ input = sys.stdin.readline
 
 def t_sort(n, idegree, graph, time):
     inf = int(1e9)
-    time_results = [inf] * (n+1)
+    time_results = time.copy()
     q = deque()
     
     for i in range(1, n+1):
@@ -38,9 +39,8 @@ def t_sort(n, idegree, graph, time):
             if idegree[i] == 0:
                 q.append(i)
                 
-                # 제일 적게 걸리는 경로의 시간을 결과로 추출
-                cur_path_time = time_results[now] + time[i]
-                if time_results[i] > cur_path_time:
+                cur_path_time = time_results[now] + time[i] # 이전 경로까지 누적 시간 합의 최소값 + 현재 시간
+                if time_results[i] < cur_path_time:
                     time_results[i] = cur_path_time
 
     return time_results 
@@ -54,6 +54,7 @@ if __name__ == '__main__':
     idegree = [0] * (n+1)
     graph = [[] for i in range(n+1)]
     time = [0] * (n+1)
+
     for i in range(1, n+1):
         input_lst = list(map(int, input().split()))
         last_idx = input_lst.index(-1)
@@ -65,8 +66,7 @@ if __name__ == '__main__':
             
         else:
             idegree[i] = 0
-
-
+    
     results = t_sort(n, idegree, graph, time)
 
     for i in results[1:]:
