@@ -1,5 +1,6 @@
 # https://www.acmicpc.net/problem/3665
 
+
 from collections import deque
 
 
@@ -23,55 +24,63 @@ def topo_sort(n, graph, indegree):
             indegree[i] -= 1
             if indegree[i] == 0:
                 q.append(i)
+
+        if len(q) >= 2:
+            print('?')
+            return
     
+    if len(results) != n:
+        print('IMPOSSIBLE')
+        return
+
     print(' '.join([str(i) for i in results]))
 
 
 # 입력
-n = int(input()) # n팀
-last_rank = list(map(int, input().split())) # 작년 순위
-m = int(input()) # 올해 등수가 바뀐 경우
-shift_case = []
-for _ in range(m):
-    a, b = map(int, input().split())
-    shift_case.append((a, b))
 
-# sort를 위한 데이터
-indegree = [0] * (n+1)
-graph = [[] for i in range(n+1)]
+if __name__ == '__main__':
 
-for i in range(n-1):
-    now = last_rank[i]
-    
-    for j in range(i+1, n): 
-        ahead = last_rank[j]
-        graph[now].append(ahead) 
-        indegree[ahead] += 1
+    n_case = int(input())
 
+    for _ in range(n_case):
 
-while shift_case:
-  
-    a, b = shift_case.pop()
+        n = int(input()) # n팀
+        last_rank = list(map(int, input().split())) # 작년 순위
+        m = int(input()) # 올해 등수가 바뀐 경우
+        shift_case = []
+        for _ in range(m):
+            a, b = map(int, input().split())
+            shift_case.append((a, b))
 
+        # sort를 위한 데이터
+        indegree = [0] * (n+1)
+        graph = [[] for i in range(n+1)]
 
-    if b in graph[a]: # a -> b 이면 b -> a로 변경
-        indegree[b] -= 1
-        indegree[a] += 1
-        graph[a].remove(b)
-        graph[b].append(a)
-
-    elif a in graph[b]:
-        indegree[a] -= 1
-        indegree[b] += 1
-        graph[b].remove(a)
-        graph[a].append(b)
+        for i in range(n-1):
+            now = last_rank[i]
+            
+            for j in range(i+1, n): 
+                ahead = last_rank[j]
+                graph[now].append(ahead) 
+                indegree[ahead] += 1
 
 
-    print(f"shift_case: ({a, b})")
-    print(graph)
-    print(indegree)
-    print('-'*30)
+        while shift_case:
+        
+            a, b = shift_case.pop()
 
 
-topo_sort(n, graph, indegree)
+            if b in graph[a]: # a -> b 이면 b -> a로 변경
+                indegree[b] -= 1
+                indegree[a] += 1
+                graph[a].remove(b)
+                graph[b].append(a)
+
+            elif a in graph[b]:
+                indegree[a] -= 1
+                indegree[b] += 1
+                graph[b].remove(a)
+                graph[a].append(b)
+
+        topo_sort(n, graph, indegree)
     
