@@ -25,18 +25,17 @@ def topo_sort(n, graph, indegree):
             if indegree[i] == 0:
                 q.append(i)
 
-        if len(q) >= 2:
+        if len(q) >= 2: # 진입차수가 동시에 0이 나오는 경우
             print('?')
             return
     
-    if len(results) != n:
+    if len(results) != n: # results에 모든 팀이 나오지 않는 경우
         print('IMPOSSIBLE')
         return
 
     print(' '.join([str(i) for i in results]))
 
 
-# 입력
 
 if __name__ == '__main__':
 
