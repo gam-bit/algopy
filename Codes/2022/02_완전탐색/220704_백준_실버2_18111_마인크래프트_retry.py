@@ -1,47 +1,41 @@
 # brute force -> 시간초과
 # https://www.acmicpc.net/problem/18111
 
+from collections import Counter
 import sys
 input = sys.stdin.readline
 
-def add(h_now, h, result, remain_b):
-    result += (h-h_now) 
-    remain_b -= (h-h_now)
-    return result, remain_b
-    
+N, M, B = map(int, input().split())
 
-def extract(h_now, h, result, remain_b):
-    result += (h_now - h) * 2
-    remain_b += (h_now - h)
-    return result, remain_b
+total_space = []
+for _ in range(N):
+    space = list(map(int, input().split()))
+    total_space += space
 
-if __name__ == "__main__":
+total_B = sum(total_space) + B
+h_min, h_max = min(total_space), total_B // (N*M)
 
-    N, M, B = map(int, input().split())
-    total_space = []
+answer_time = 10000000000
+answer_height = 0
+heights = Counter(total_space)
+for i in range(h_min, h_max+1):
+    time = 0
+    for h, cnt in heights.items():
+        if cnt > 0:
+            if h > i:
+                time += 2 * abs(h-i) * cnt
+            elif h < i:
+                time += abs(h-i) * cnt
+    if time <= answer_time:
+        answer_time = time
+        answer_height = i
 
-    for _ in range(N):
-        space = list(map(int, input().split()))
-        total_space += space
-
-    total_block = B + sum(total_space)
-    s_min, s_max = min(total_space), total_block // (M*N) 
-
-    answer_time = 9999999999
-    answer_height = 0
-
-    for h in range(s_min, s_max+1):
-        remain_b = B
-        result = 0
-        for now_h in total_space:
-            if now_h > h:
-                result, remain_b = extract(now_h, h, result, remain_b)
-            elif now_h < h:
-                result, remain_b = add(now_h, h, result, remain_b)
-        if (result < answer_time) & (remain_b>=0):
-            answer_time = result
-            answer_height = h
-
-    print(answer_time, answer_height)
-
+print(answer_time, answer_height)
         
+
+
+"""
+* 시간초과 해결방법 *
+- 블럭을 쌓을 수 있는 최소~최대 높이 정하기 -> 최대 : 블럭 개수 세서 지정
+- space를 하나씩 불러오지 않고 Counter를 써서 같은 높이의 space는 한 번에 계산
+"""
