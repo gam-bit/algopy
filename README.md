@@ -16,7 +16,8 @@
     > - 틀린 문제/전체 문제 : 3/9
 
 - 02: 완전 탐색
-    > - 기간 : 2022-06-30 ~ 
+    > - 기간 : 2022-06-30 ~ 2022.07.20
     > - 내용 : 완전 탐색 ([참고 자료](https://github.com/VSFe/Algorithm_Study/blob/main/Concept/Prev/vol.2/02_Implementation/Ch.02_%EC%99%84%EC%A0%84%ED%83%90%EC%83%89.pdf))
+    > - 틀린 문제/전체 문제 : 4/10
 
 - 03: 
