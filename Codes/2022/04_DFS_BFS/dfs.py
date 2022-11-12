@@ -20,6 +20,7 @@ def dfs_stack(graph, start_node=1):
 
 
 if __name__ == "__main__":
+    # input
     graph = [
         [],
         [2, 3, 8],
@@ -31,9 +32,10 @@ if __name__ == "__main__":
         [2, 6, 8],
         [1, 7]
     ]  # 1 2 7 6 8 3 4 5
-
+    # 재귀 방식 ------------------------------------
     # visited = [False for _ in range(len(graph))]
     # dfs(graph, 1, visited)
 
+    # stack 방식 ----------------------------------
     dfs_stack(graph)
     
