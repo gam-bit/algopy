@@ -1,4 +1,9 @@
 # https://school.programmers.co.kr/learn/courses/30/lessons/1844
+"""
+bfs로 미로 최단거리 문제를 푸는 이유:
+breadth 방향으로 탐색하면서 이미 지나갔던 길은 지나가지 않게 만들기 때문에
+같은 위치를 먼저 도착하는 경로로 이동하게 되기 때문
+"""
 from collections import deque
 
 def solution(maps):
