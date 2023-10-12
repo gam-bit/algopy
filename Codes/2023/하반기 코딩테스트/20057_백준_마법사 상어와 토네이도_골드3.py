@@ -33,18 +33,21 @@ def main(n, graph):
     m = 0
     m_value = 1
     move_idx = [(0, -1), (1, 0), (0, 1), (-1, 0)]
-    
+    alpha_idx = [(2, 1), (3, 2), (2, 3), (1, 2)]
+
     sand_out = 0
     
     while True:
 
         k = m % 4 
         move_i, move_j = move_idx[k]
+        alpha_i, alpha_j = alpha_idx[k]
 
         # y의 모래 양 확인
         for _ in range(m_value):
             y_i = x_i + move_i
             y_j = x_j + move_j
+
             if y_i < 0 or y_j < 0 or y_i >= n or y_j >= n:
                 return sand_out
             
@@ -59,8 +62,8 @@ def main(n, graph):
             sand_move = [[int(i*sand_y) for i in l] for l in p]
             sand_move_total = sum([sum(i) for i in sand_move])
             alpha = sand_y - sand_move_total
-            sand_move[2][1] = alpha
-            
+            sand_move[alpha_i][alpha_j] = alpha
+
             # 모래 이동
                 # 기준점 (2, 2) = y 위치
                 # 범위 (0,0) ~ (4, 4)
